@@ -284,7 +284,13 @@ static void ShowUsageWithFlagsMatching(const char *argv0,
             fprintf(stdout, "\n\n");   // put blank lines between directories
           first_directory = false;
         }
+#if defined(GFLAGS_HIDE_PATH_IN_HELP_ALL)
+        fprintf(stdout, "\n");
+#elif defined(GFLAGS_HIDE_PATH_IN_HELP_BASENAME)
+        fprintf(stdout, "\n  Flags from %s:\n", Basename(flag->filename.c_str()));
+#else
         fprintf(stdout, "\n  Flags from %s:\n", flag->filename.c_str());
+#endif
         last_filename = flag->filename;
       }
       // Now print this flag

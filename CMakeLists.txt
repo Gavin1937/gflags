@@ -53,6 +53,7 @@
 ## - GFLAGS_NAMESPACE
 ## - GFLAGS_ATTRIBUTE_UNUSED
 ## - GFLAGS_INTTYPES_FORMAT
+## - GFLAGS_HIDE_PATH_IN_HELP
 ##
 ## Variables to configure the build:
 ## - GFLAGS_SOVERSION
@@ -304,6 +305,17 @@ set (GFLAGS_INTTYPES_FORMAT_C99 0)
 set (GFLAGS_INTTYPES_FORMAT_BSD 0)
 set (GFLAGS_INTTYPES_FORMAT_VC7 0)
 set ("GFLAGS_INTTYPES_FORMAT_${INTTYPES_FORMAT}" 1)
+
+gflags_define (STRING HIDE_PATH_IN_HELP "Hide file path help message. Options: \"All\", \"Basename\"" "")
+if ("${GFLAGS_HIDE_PATH_IN_HELP}" STREQUAL "All") # Hide entire file path
+  add_definitions (-DGFLAGS_HIDE_PATH_IN_HELP_ALL)
+elseif ("${GFLAGS_HIDE_PATH_IN_HELP}" STREQUAL "Basename") # Hide basename of file path only
+  add_definitions (-DGFLAGS_HIDE_PATH_IN_HELP_BASENAME)
+elseif (NOT "${GFLAGS_HIDE_PATH_IN_HELP}" STREQUAL "") # Invalid input
+  message (FATAL_ERROR "Cannot parse input GFLAGS_HIDE_PATH_IN_HELP: ${GFLAGS_HIDE_PATH_IN_HELP}."
+                       " Please choose between: \"All\" for hiding the entire file path."
+                       " Or \"Basename\" for hiding file path basename only.")
+endif ()
 
 if (MSVC)
   set (HAVE_strtoll 0)
