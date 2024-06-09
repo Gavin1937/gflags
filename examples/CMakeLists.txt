@@ -1,6 +1,21 @@
 cmake_minimum_required(VERSION 3.11)
 
+# you may need to set following cmake_policies before your **first project() function**
+if (POLICY CMP0042)
+  cmake_policy (SET CMP0042 NEW)
+endif ()
+
+if (POLICY CMP0048)
+  cmake_policy (SET CMP0048 NEW)
+endif ()
+
+if (POLICY CMP0063)
+  cmake_policy (SET CMP0063 NEW)
+endif ()
+
+
 project(example)
+
 
 # gflags cmake flags
 
